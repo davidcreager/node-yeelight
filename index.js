@@ -407,9 +407,15 @@ Yeelight.prototype.set_default = function (){
  * <li>2 means turn off the smart LED after the flow is stopped.
  * @param {String} flow_expression is the expression of the state changing series.
  * @returns {Promise} see {@link Yeelight#command} 
- */
+
 Yeelight.prototype.start_cf = function (count, action, flow_expression){
   return this.command('start_cf', arguments);
+};
+*/
+Yeelight.prototype.start_cf = function (cnt, endState, flows){
+	//console.log("DEB START cnt=" + cnt, " endState=" + endState + " flows=" + flows);
+	//console.log("DEB START arguments=" + arguments);
+  return this.command('start_cf', cnt, endState, [].slice.call(arguments,2));
 };
 /**
  * stop_cf This method is used to stop a running color flow.

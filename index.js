@@ -238,7 +238,7 @@ Yeelight.prototype.command = function(method, params){
       var respond = false;
       var timeout = setTimeout(function(){
         if(!respond) reject(new Error('Network timeout, Yeelight not response'));
-      }, 3000);
+      }, 5000);
       this.queue[ id ] = function(res){
         if(respond) return;
         respond = true;

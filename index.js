@@ -50,6 +50,7 @@ function Yeelight(address, port){
     this.emit('disconnect', this);
   }.bind(this))
   .connect(port, address, function(err){
+	  this.socket.setKeepAlive(true,30*1000);
     this.connected = true;
     this.sync().then(function(){
       this.emit('connect', this);
@@ -195,6 +196,7 @@ Yeelight.prototype.sync = function(){
 Yeelight.prototype.parse = function(data){
   console.debug('->', data);
   var yl = this;
+  
   function parseResult(result) {
     var message = JSON.parse(result);
     if(message.method === 'props'){
@@ -413,8 +415,6 @@ Yeelight.prototype.start_cf = function (count, action, flow_expression){
 };
 */
 Yeelight.prototype.start_cf = function (cnt, endState, flows){
-	//console.log("DEB START cnt=" + cnt, " endState=" + endState + " flows=" + flows);
-	//console.log("DEB START arguments=" + arguments);
   return this.command('start_cf', cnt, endState, [].slice.call(arguments,2));
 };
 /**

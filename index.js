@@ -198,7 +198,14 @@ Yeelight.prototype.parse = function(data){
   var yl = this;
   
   function parseResult(result) {
-    var message = JSON.parse(result);
+    let message;
+	try {
+		message = JSON.parse(result);
+	} catch (er) {
+		console.log("YEELIGHT2 Error caught in parseResult, JSON error " + er + " payload=" + result);
+		return false;
+	}
+		
     if(message.method === 'props'){
       Object.keys(message.params).forEach(function(key){
 	      yl[ key ] = message.params[ key ];

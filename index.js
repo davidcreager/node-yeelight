@@ -186,11 +186,14 @@ Yeelight.prototype.props = [
 Yeelight.prototype.sync = function(){
   return this.get_prop.apply(this, this.props)
   .then(function(res){
-    Object.keys(res).forEach(function(key){
-      this[ key ] = res[ key ];
-    }.bind(this));
+	  if (res) {
+		Object.keys(res).forEach(function(key){
+				this[ key ] = res[ key ];
+			}.bind(this));
+	  }
     return res;
-  }.bind(this));
+  }.bind(this))
+  .catch( er => {console.log("YEELIGHT2 Error caught in sync " + er);return er} );
 };
 
 /**

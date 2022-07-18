@@ -33,6 +33,11 @@ function Yeelight(address, port){
   this.queue = {};
   this.socket = new tcp.Socket();
   this.socket
+  .on('timeout', function(err){
+    this.connected = false;
+    this.emit('error', err);
+    this.emit('disconnect', this);
+  }.bind(this))
   .on('data', function(chunk){
     buffer += chunk;
     buffer.split(/\r\n/g).filter(function(line){
@@ -50,12 +55,12 @@ function Yeelight(address, port){
     this.emit('disconnect', this);
   }.bind(this))
   .connect(port, address, function(err){
-	  this.socket.setKeepAlive(true,30*1000);
-    this.connected = true;
-    this.sync().then(function(){
-      this.emit('connect', this);
-    }.bind(this));
-  }.bind(this));
+		this.socket.setKeepAlive(true,30*1000);
+		this.connected = true;
+		this.sync().then(function(){
+			this.emit('connect', this);
+			}.bind(this));
+	}.bind(this));
   return this;
 };
 

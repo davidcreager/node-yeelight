@@ -292,7 +292,7 @@ Yeelight.prototype.get_prop = function (prop1, prop2, propN){
       item[ name ] = res.result[ index ];
       return item;
     }, {});
-  });
+  }).catch( (er) => {console.log("YEELIGHT2 Error caught in get_prop " + er);return null} );
 };
 
 /**
